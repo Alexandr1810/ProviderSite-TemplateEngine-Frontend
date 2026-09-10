@@ -42,6 +42,7 @@ function PageAdmin({
   reachGoals_original,
   
   cities_list_original,
+  cities_list_shared,
   allOffers_plans
 }) {
   const [activeAlert, setActiveAlert] = useState('')
@@ -172,6 +173,7 @@ function PageAdmin({
           <Cities 
             site_config={site_config_admin} 
             cities_list={cities_list_admin} 
+            cities_list_shared = {cities_list_shared}
             setCities_list={setCities_list_admin}
             setSite_config={setSite_config_admin}
             

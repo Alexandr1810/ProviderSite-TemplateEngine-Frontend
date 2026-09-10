@@ -2806,6 +2806,12 @@ footer{
   padding: 10px;
   border-radius: 10px;
 }
+.slider-item-id{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
 .slider-item .left-side{
   display: flex;
   flex-direction: row;
@@ -2978,6 +2984,17 @@ footer{
 .cities-buttons .saveIcon-Button{
   padding: 15px;
 }
+.cities-buttons select{
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    padding: 10px;
+}
+#cities .cities-buttons .saveIcon-Button{
+    height: fit-content;
+    padding: 8px;
+
+}
 .addIcon-Button{
   padding: 15px;
 }
@@ -2996,7 +3013,24 @@ footer{
 .addIcon-Button:hover::after {
   filter: none;
 }
+.offers-filters{
+  margin-bottom: 10px;    
+  align-items: center;
+}
 
+.offers-filters select, .offers-filters input{
+  padding: 8px;
+}
+.offers-filters button{
+  padding: 9px;
+}
+.offers-bulk-actions{
+  margin-top: 5px;
+}
+.offers-bulk-actions label{
+  flex-direction: row;
+  align-items: center;
+}
 /* Тарифы (Заимствую у слайдера) */
 .offers-data{
   display: flex;
@@ -3058,6 +3092,7 @@ footer{
   display: flex !important;
   flex-direction: row !important;
   gap: 5px !important;
+  flex-wrap: wrap !important;
 }
 .f-column{
   display: flex !important;

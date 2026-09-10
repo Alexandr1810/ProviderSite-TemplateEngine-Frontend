@@ -8,6 +8,7 @@ let activeCity = {}
 
 let cities_list = [];
 let cities_list_original = [];
+let cities_list_shared = [];
 
 export async function setActiveCity(detectedCity_code = null){
   console.log('detectedCity_code', detectedCity_code)
@@ -32,7 +33,8 @@ export async function loadCities(detectedCity_code = null, isAdmin = false) {
 
   const data = await res.json();
   console.log(data)
-  cities_list_original = data.data
+  cities_list_original = data.data.cities_list
+  cities_list_shared = data.data.cities_list_shared
   
   //Если нет в списке - отдаем
   console.log(cities_list_original)
@@ -62,7 +64,7 @@ export async function loadCities(detectedCity_code = null, isAdmin = false) {
     });;
     cities_list = prepareCities_byLiters(cities_list, detectedCity)
   }
-  return {cities_list, cities_list_original}
+  return {cities_list, cities_list_original, cities_list_shared}
   
 }
 function prepareCities_byRegion(cities_list, detectedCity = null) {

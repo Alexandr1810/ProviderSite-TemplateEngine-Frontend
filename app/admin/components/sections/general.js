@@ -305,6 +305,7 @@ ${emptyFields}`)
                     {additionals.map((item) => (
                         <div className="slider-item" key={item.id}>
                             <div className='left-side'>
+                                <div className="slider-item-id">{item.id}</div>
                                 <div className={item.id === active_addImage_item ? 'imgContainer sliderImage active': 'imgContainer sliderImage'} onClick={()=>{item.id === active_addImage_item ? setActive_addImage_item(null) : setActive_addImage_item(item.id)}}>
                                     <img src={item.img} />  
                                     <div className='allImagesContainer'>

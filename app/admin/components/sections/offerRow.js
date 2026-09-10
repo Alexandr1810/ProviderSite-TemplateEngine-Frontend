@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 function OfferRow(props) {
-  const { item, cities_list, additionals, register } = props
+  const { item, cities_list, additionals, register, isSelected, onToggleSelect } = props
   const [offer, setOffer] = useState({...item})
 
   useEffect(()=>{
@@ -44,6 +44,17 @@ function OfferRow(props) {
 
   return (
     <div className='slider-item' alt={offer.id} htmlFor={offer.position}>
+        <div className='slider-item-select f-row'>
+          <label className='select-offer-label f-row'>
+            <input
+              type='checkbox'
+              checked={!!isSelected}
+              onChange={() => onToggleSelect(offer.id)}
+            />
+            <span>Выбрать</span>
+          </label>
+        </div>
+
         <span className='label-title'><b>Основные параметры</b></span>
         <div className='top-side'>
           <label><span className='label-title'>Название тарифа:</span>

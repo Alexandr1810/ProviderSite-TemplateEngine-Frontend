@@ -34,6 +34,21 @@ function Cities(props) {
       }]
     )
   }
+  
+  function addCityFromShared(id){
+    console.log(id)
+    console.log(props.cities_list_shared)
+    const cities_list_shared_item = props.cities_list_shared.find((city_shared) => city_shared.id === Number(id))
+    console.log(cities_list_shared_item)
+    
+    setCities_list(prev =>
+      [...prev, {
+        ...cities_list_shared_item,
+        id: prev[prev.length-1] ? prev[prev.length-1].id+1 : 0,
+        id_shared: cities_list_shared_item.id,
+      }]
+    )
+  }
 
   async function saveCities() {
     try{
@@ -42,8 +57,8 @@ function Cities(props) {
         'region'
       ]);
       if (!isValid) {
-        alert(`Не все поля заполнены!`)
-        return;
+        //alert(`Не все поля заполнены!`)
+        //return;
       }
       await axios.post(`${server_config.api_protocol}://${server_config.site_folder}/back/update/site_config/${server_config.site_key}`, {
         site_config: {
@@ -105,9 +120,19 @@ function Cities(props) {
                   <button className='delIcon-Button' onClick={()=>delCity(item.id)}></button>
                 </div>
               ))}
+
           </div>
           <div className='cities-buttons'>
-            <button className='addIcon-Button' onClick={addCity}></button>
+            <select
+                value="0"
+                onChange={(e) => addCityFromShared(e.target.value)}
+              >
+                <option value="0">Все города</option>
+                {props.cities_list_shared.map((city) => (
+                  <option value={city.id} key={city.id}>{city.city} - {city.region}</option>
+                ))}
+              </select>
+            {/*<button className='addIcon-Button' onClick={addCity}></button>*/}
             <button className='saveIcon-Button' onClick={saveCities}></button>
           </div>
         </div>

@@ -182,7 +182,8 @@ export async function loadItemsConfig(isAdmin = false) {
     // Иконки для дополнительных услуг
     additionals: []
   }
-    
+
+  
   // --- Формы в шапке --- //
   header_links = data.data.header_links;
   

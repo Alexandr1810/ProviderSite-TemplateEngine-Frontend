@@ -44,7 +44,7 @@ export default async function AdminPage() {
 
   const { metatags } = await loadMetatags(true);
 
-  const { cities_list_original } = await loadCities(null, true);
+  const { cities_list_original, cities_list_shared } = await loadCities(null, true);
 
   const { allOffers_plans } = await loadOffers(true);
 
@@ -75,6 +75,7 @@ export default async function AdminPage() {
         reachGoals_original={reachGoals_original}
 
         cities_list_original={cities_list_original}
+        cities_list_shared={cities_list_shared}
         allOffers_plans={allOffers_plans}
       />
     </div>

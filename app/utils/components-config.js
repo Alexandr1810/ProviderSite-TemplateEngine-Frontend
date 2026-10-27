@@ -262,6 +262,26 @@ export async function loadMetatags(isAdmin = false) {
   }
 }
 
+export async function loadPhoneList(isAdmin = false) {
+  console.log("Загружаю когнфиг номеров")
+  
+  let phone_list = null;
+
+  const phone_list_res = await fetch(
+    `${server_config.api_protocol}://${server_config.site_folder}/front/getPhoneList/${server_config.site_key}`, {
+    ...(isAdmin
+      ? { cache: 'no-store' }
+      : { next: { revalidate: server_config.сaching_period } })
+  });
+  const phone_list_data = await phone_list_res.json();
+  phone_list = phone_list_data.data
+
+  return {
+    phone_list
+  }
+}
+
+
 //Заменяем понятные сокращения и ссылки на данные из конфига
 function keysDictionary(str) {
   if (site_config_local === null) return str;

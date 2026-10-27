@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { loadItemsConfig, loadConfig } from '@/app/utils/components-config'
+import { loadItemsConfig, loadConfig, loadPhoneList } from '@/app/utils/components-config'
 import { loadYMConfig } from '@/app/mods/YandexMetrika/YandexMetrika_config.js'
 
 import OfferSection from '@/app/components/pageOffer/offerPreview/offerSection'
@@ -13,6 +13,7 @@ import { setActiveCity } from '@/app/utils/getCities'
 
 async function PageOffer({params_city, url_name}){
   const site_config = await loadConfig();
+  const { phone_list } = await loadPhoneList();
   const {reachGoals} = await loadYMConfig();
   const activeCity = await setActiveCity(params_city);
   const {questions_items, OfferDescriptions_items, main_icons, logo_small, map_img} = await loadItemsConfig();
@@ -38,6 +39,8 @@ async function PageOffer({params_city, url_name}){
             />
             <QuestionsSection
                 questions_items={questions_items}
+                phone_list={phone_list}
+                connection_phone={site_config.connection_phone}
             />
             <MapForm
                 map_img={map_img}

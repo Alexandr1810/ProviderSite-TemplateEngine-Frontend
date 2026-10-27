@@ -5,7 +5,8 @@ import {
   loadItemsConfig,
   loadMetatags,
   loadContext,
-  loadConfig
+  loadConfig,
+  loadPhoneList
 } from '@/app/utils/components-config.js'
 
 import {
@@ -46,6 +47,8 @@ export default async function AdminPage() {
 
   const { cities_list_original, cities_list_shared } = await loadCities(null, true);
 
+  const { phone_list } = await loadPhoneList(true);
+
   const { allOffers_plans } = await loadOffers(true);
 
   const { reachGoals_original } = await loadYMConfig(true);
@@ -76,6 +79,7 @@ export default async function AdminPage() {
 
         cities_list_original={cities_list_original}
         cities_list_shared={cities_list_shared}
+        phone_list={Array.isArray(phone_list) ? phone_list : []}
         allOffers_plans={allOffers_plans}
       />
     </div>

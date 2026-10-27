@@ -388,8 +388,26 @@ ${emptyFields}`)
                         </div>
                     </div>
                 </label>
+                <label>
+                    <span className='label-title'>Отображение городов:</span>
+                    <div className="radioContainer">
+                        <div className="radioItem">
+                            <input type='radio' name='show_city' checked={site_config.show_city ? Number(site_config.show_city) : '0' } value="1" onChange={handleChange} />
+                            <span className='label-title'>Да</span>
+                        </div>
+                        <div className="radioItem">
+                            <input type='radio' name='show_city' checked={site_config.show_city ? !Number(site_config.show_city) : '0' } value="0" onChange={handleChange} />
+                            <span className='label-title'>Нет</span>
+                        </div>
+                    </div>
+                </label>
                 <label><span className='label-title'>Создавать сделки в стадии: (базовая)</span>
                 <input type='text' name='base_stage' placeholder='NEW' value={site_config.base_stage || ''} onChange={handleChange} />
+                </label>
+                <label><span className='label-title hasDescription'>Ссылка на Личный кабинет провайдера:
+                    <div className='label-decription'>Если поле заполено как "none" - ссылка на личный кабинет в шапке будет скрыта </div>
+                </span>
+                <input type='text' name='lk_link' placeholder='https://domain.ru/lk' value={site_config.lk_link || ''} onChange={handleChange} />
                 </label>
                 <label>
                     <span className='label-title hasDescription'>Показывать поле "Жилое/Не жилое"
@@ -409,7 +427,16 @@ ${emptyFields}`)
                 <label><span className='label-title'>Телефон (поддержка):</span>
                 <input type='text' name='support_phone' placeholder='8 (800) 700-60-50' value={site_config.support_phone || ''} onChange={handleChange} />
                 </label>
-                <label><span className='label-title'>Телефон (подключение):</span>
+                <label><span className='label-title hasDescription'>Телефон основной/резервный (подключение):
+                    <div className='label-decription'>Если заполнен раздел "Номера по UTM" - будут использоваться номера из того списка. Этот номер будет использоваться в случаях когда: 
+                        <br /> 
+                        •  Раздел "Номера по UTM" не заполнен
+                        <br /> 
+                        •  utm_source не передан
+                        <br /> 
+                        •  utm_source передан, но не найден в списке раздела "Номера по UTM"
+                        </div>
+                </span>
                 <input type='text' name='connection_phone' placeholder='8 (800) 400-30-20' value={site_config.connection_phone || ''} onChange={handleChange} /></label>
                 <label>
                 <span className='label-title hasDescription'>Текст в подвале сайта: 

@@ -11,7 +11,7 @@ import { server_config } from '@/app/utils/server_config.js'
 export async function generateMetadata() {
   const site_config = await loadConfig();
   const title = `${site_config.provider_name} | Вход`;
-  const description = `Актуальные тарифы на домашний интернет и ТВ от ${site_config.genitive_provider_name} в Вашем городе! Скидки до -50% новым абонентам.☎️Бесплатная консультация ${site_config.connection_phone}.`;
+  const description = `Актуальные тарифы на домашний интернет и ТВ от ${site_config.genitive_provider_name} в Вашем городе! Скидки до -50% новым абонентам. ☎️Подключение: ${site_config.connection_phone}.`;
   
   return {
     icons: {

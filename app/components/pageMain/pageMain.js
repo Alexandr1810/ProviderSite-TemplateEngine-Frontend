@@ -10,18 +10,19 @@ import MapForm from '@/app/components/map_form/map_form.js'
 
 import QuestionsSection from '@/app/components/pageMain/questions/questions.js'
 //Конфиги
-import { loadItemsConfig, loadConfig } from '@/app/utils/components-config'
+import { loadItemsConfig, loadConfig, loadPhoneList } from '@/app/utils/components-config'
 import { loadYMConfig } from '@/app/mods/YandexMetrika/YandexMetrika_config.js'
 
 //Функции
 import { setActiveCity } from '@/app/utils/getCities'
 import { loadOffers } from '@/app/utils/getOffers'
-import {openModal} from '@/app/utils/functions'
+import { openModal } from '@/app/utils/functions'
 import { pluralize } from '@/app/utils/functions'
 
 
 async function PageMain({params_city}){
   const site_config = await loadConfig();
+  const { phone_list } = await loadPhoneList();
   const {slider_slides, banner_items, adventages_items, questions_items, main_icons, logo_small, map_img} = await loadItemsConfig();
   const {reachGoals} = await loadYMConfig();
   const activeCity = await setActiveCity(params_city);
@@ -59,6 +60,8 @@ async function PageMain({params_city}){
         />
         <QuestionsSection 
           questions_items={questions_items}
+          phone_list={phone_list}
+          connection_phone={site_config.connection_phone}
         />
         <MapForm 
           site_config={site_config}

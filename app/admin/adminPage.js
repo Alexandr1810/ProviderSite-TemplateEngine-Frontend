@@ -9,6 +9,7 @@ import FrontHeader from '@/app/admin/components/sections/frontHeader.js'
 import Slider from '@/app/admin/components/sections/slider.js'
 import Banner from '@/app/admin/components/sections/banner.js'
 import Cities from '@/app/admin/components/sections/cities.js'
+import PhoneList from '@/app/admin/components/sections/phoneList.js'
 import Offers from '@/app/admin/components/sections/offers.js'
 import OfferPage from '@/app/admin/components/sections/offerPage.js'
 import Questions from '@/app/admin/components/sections/questions.js'
@@ -43,6 +44,7 @@ function PageAdmin({
   
   cities_list_original,
   cities_list_shared,
+  phone_list,
   allOffers_plans
 }) {
   const [activeAlert, setActiveAlert] = useState('')
@@ -58,6 +60,7 @@ function PageAdmin({
   const [site_config_admin, setSite_config_admin] = useState({})
   const [main_icons_admin, setMain_icons_admin] = useState({additionals:[]})
   const [cities_list_admin, setCities_list_admin] = useState([])
+  const [phone_list_admin, setPhone_list_admin] = useState([])
   const [header_links_admin, setHeader_links_admin] = useState([])
   const [slider_slides_admin, setSlider_slides_admin] = useState([])
   const [banner_items_admin, setBanner_items_admin] = useState([])
@@ -78,6 +81,7 @@ function PageAdmin({
     setSite_config_admin({...site_config})
     setMain_icons_admin({...main_icons})
     setCities_list_admin([...cities_list_original])
+    setPhone_list_admin(Array.isArray(phone_list) ? [...phone_list] : [])
     setHeader_links_admin([...header_links])
     setSlider_slides_admin([...slider_slides])
     setBanner_items_admin([...banner_items])
@@ -177,6 +181,13 @@ function PageAdmin({
             setCities_list={setCities_list_admin}
             setSite_config={setSite_config_admin}
             
+            showAlert={showAlert}
+            validateRequiredFields={validateRequiredFields}
+          />
+          <PhoneList
+            phone_list={phone_list_admin}
+            setPhone_list={setPhone_list_admin}
+
             showAlert={showAlert}
             validateRequiredFields={validateRequiredFields}
           />

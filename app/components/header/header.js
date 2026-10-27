@@ -1,6 +1,7 @@
 import { loadYMConfig } from '@/app/mods/YandexMetrika/YandexMetrika_config'
-import { loadConfig, loadItemsConfig } from '@/app/utils/components-config'
+import { loadConfig, loadItemsConfig, loadPhoneList } from '@/app/utils/components-config'
 import SupportLink from './supportLink'
+import LkLink from './lkLink'
 import ModalLink from './modalLink'
 import TpButton from './tpButton'
 import ConnectionButton from './connectionButton'
@@ -8,9 +9,11 @@ import { setActiveCity } from '@/app/utils/getCities'
 
 async function Header({params_city}){
     const site_config = await loadConfig();
+    const {phone_list} = await loadPhoneList();
     const {header_links, logo} = await loadItemsConfig();
     const {reachGoals} = await loadYMConfig()
     const activeCity = await setActiveCity(params_city);
+
 
     return(
         <header>
@@ -38,6 +41,14 @@ async function Header({params_city}){
                     */}
 
                     {/*<TpButton /> // КНОПКА ТП */}
+
+                </div>
+                <div className='headerTop-contactBlock'>
+                    {
+                    <LkLink
+                        lk_link_on={site_config.lk_link}
+                    />
+                    }
                 </div>
             </div>
             <div className='headerBottom'>
@@ -62,7 +73,7 @@ async function Header({params_city}){
                 <div className='headerBottom-rightSide'>
                     {/* Тут ричгол берем из конфига метрики */}
 
-                    {Number(site_config.show_phone) ? <ConnectionButton site_config={site_config} reachGoals={reachGoals}/> : ''}
+                    {Number(site_config.show_phone) ? <ConnectionButton site_config={site_config} phone_list={phone_list} reachGoals={reachGoals}/> : ''}
                 </div>
 
             </div>

@@ -75,6 +75,21 @@ function TarifPreview(props){
                 <div className='saleBlock'>{props.plan.discount_description}</div>
             }
             <div className='elems'>
+            {props.plan.services.includes('sim') &&
+                <div className='elem mobile'>
+                    <div className={props.plan.needPristavka ? `left-side active` : `left-side`}>
+                        <img src={props.icons.sim_card} />
+                        <div className="mobile-container">
+                            <span className='mobile-title'>Мобильная связь</span>
+                            <span>
+                                {
+                                    `${props.plan.sim_gb ? `${props.plan.sim_gb}гб` : ""}${props.plan.sim_min ? `/${props.plan.sim_min}мин` : ""}${props.plan.sim_sms ? `/${props.plan.sim_sms}смс` : ""}`
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
             {props.plan.services.includes('internet') &&
                 <div className='elem'>
                     <div className={props.plan.needRouter ? `left-side active` : `left-side`}>

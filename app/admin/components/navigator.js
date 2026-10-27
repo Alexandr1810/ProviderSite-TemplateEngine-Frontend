@@ -9,6 +9,7 @@ function Navigator(props) {
     { id: "slider", label: "Главный слайдер" },
     { id: "banner", label: "Баннер преимуществ" },
     { id: "cities", label: "Список городов" },
+    { id: "phoneList", label: "Номера по UTM" },
     { id: "offers", label: "Список тарифов" },
     { id: "offerPage", label: "Страница тарифа" },
     { id: "adventeges", label: "Преимущества" },

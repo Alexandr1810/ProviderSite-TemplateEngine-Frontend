@@ -188,6 +188,10 @@ header{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+#lk_link{
+  color: var(--primary-color);
+  font-weight: 600;
+}
 #supportPhone:hover, #supportPhone:active{
   background-image: linear-gradient(90deg, var(--primary-color), var(--primary-color) 100%);
 }

@@ -155,10 +155,12 @@ function AllOffers_Item(props){
                         }
                     </div>
                 </div>
+                {props.plan.connection_price !== 9999 &&
                 <div className='elem-priceConnection'>
                     <span className='elem-priceConnection-preview'>Стоимость подключения <b>{props.plan.connection_price}</b> руб.</span>
                     <div className='elem-priceConnection-container'><b>Как проходит подключение?</b><br/>Наши специалисты обо всем позаботятся!<br/><br/> Назначим удобное время, договоримся с управляющей компанией, заведем кабель и настроим все необходимое оборудование. <br/><br/>Останется только подписать договор и можно сразу пользоваться услугами.</div>
                 </div>
+                }
             </div>
             {!props.modalItem &&
                 <div className='allOffers-block-buttons'>

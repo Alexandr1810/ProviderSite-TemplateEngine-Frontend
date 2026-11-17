@@ -41,8 +41,7 @@ export async function loadCities(detectedCity_code = null, isAdmin = false) {
   console.log(detectedCity_code)
   console.log('итог1:', cities_list_original.find(item => item.code === detectedCity_code))
   console.log('итог:', typeof cities_list_original.find(item => item.code === detectedCity_code) === 'undefined')
-  if (!cities_list_original.find(item => item.code === detectedCity_code) && detectedCity_code !== null) {
-    console.log('Прошел!!')
+  if (detectedCity_code != null && !cities_list_original.find(item => item.code === detectedCity_code)) {
     notFound();
   }
 

@@ -39,7 +39,7 @@ export default function DealModal({icons, logo_small, activeCity, connection_pho
                     }
                     <div className='dealModal-formBlock'>
                         <span className='dealModal-formBlock-title'>{dealModal.modalName}</span>
-                        <Form site_config={site_config} formName={`${dealModal.modalName} (Модальное окно)`} reachGoals={reachGoals} formId="modalForm" reachGoal={dealModal.reachGoal} activeCity={activeCity} />
+                        <Form site_config={site_config} formName={dealModal.formName || `${dealModal.modalName} (Модальное окно)`} reachGoals={reachGoals} formId="modalForm" reachGoal={dealModal.reachGoal} activeCity={activeCity} />
                     </div>
                 </div>
             </div>

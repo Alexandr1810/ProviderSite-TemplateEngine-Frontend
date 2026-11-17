@@ -46,6 +46,7 @@ function Navigator(props) {
               {section.label}
             </a>
           ))}
+          <a href="/admin/blog">Блог</a>
 
 
           <p id="nav-autor">

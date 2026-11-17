@@ -81,13 +81,17 @@ function OfferRow(props) {
           <label><span className='label-title'>Цена по скидке:</span>
           <input type='text' id={offer.id} name='discount_price' placeholder="0" value={offer.discount_price} onChange={handleChange} /></label>
 
-          <label><span className='label-title'>Период акции:</span>
+          <label><span className='label-title hasDescription'>Период акции:
+            <div className='label-decription'>Если указать период акции '0' и заполнить поле 'Цена по скидке' - цена будет выведена без периода в старом формате.</div>
+          </span>
           <input type='text' id={offer.id} name='discount_period' placeholder="0" value={offer.discount_period} onChange={handleChange} /></label>
 
           <label><span className='label-title'>Описание акции:</span>
           <input type='text' id={offer.id} name='discount_description' placeholder="Описание" value={offer.discount_description} onChange={handleChange} /></label>
 
-          <label><span className='label-title'>Стоимость подключения:</span>
+          <label><span className='label-title hasDescription'>Стоимость подключения:
+            <div className='label-decription'>Если указать стоимость подключения '9999' - поле не будет отображаться на странице.</div>
+          </span>
           <input type='text' id={offer.id} name='connection_price' placeholder="0" value={offer.connection_price} onChange={handleChange} /></label>
 
           <label><span className='label-title'>WIFI Роутер:</span>

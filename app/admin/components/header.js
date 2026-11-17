@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useState, useEffect} from 'react'
 import { api } from '@/app/utils/api.js';
 import { server_config } from '@/app/utils/server_config.js'

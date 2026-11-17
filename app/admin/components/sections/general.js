@@ -62,9 +62,41 @@ function General(props) {
         }));
     }
     
-    function delAdditional(id){
+    function additionalIds(raw) {
+        if (Array.isArray(raw)) return raw.map(Number).filter(id => !Number.isNaN(id));
+        if (typeof raw === 'string' && raw.trim()) {
+            try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed.map(Number).filter(id => !Number.isNaN(id)) : [];
+            } catch {
+                return [];
+            }
+        }
+        return [];
+    }
+
+    async function delAdditional(id){
+        let usedBy = [];
+        try {
+            const response = await axios.get(
+                `${server_config.api_protocol}://${server_config.site_folder}/front/getOffers/${server_config.site_key}`
+            );
+            const offers = Array.isArray(response.data?.data) ? response.data.data : [];
+            usedBy = offers.filter(offer => additionalIds(offer.plan_additionals).includes(Number(id)));
+        } catch (error) {
+            console.error(error);
+            alert('Не удалось проверить тарифы. Дополнение не удалено.');
+            return;
+        }
+
+        if (usedBy.length) {
+            const names = usedBy.map(offer => offer.name || `тариф #${offer.id}`).join(', ');
+            alert(`Нельзя удалить дополнение: оно прикреплено к тарифам:\n${names}`);
+            return;
+        }
+
         setAdditionals(prev =>
-        prev.filter(city => city.id !== id)
+        prev.filter(item => item.id !== id)
         )
     }
     function addAdditional(){
@@ -168,6 +200,8 @@ ${emptyFields}`)
                 props.setMain_icons({...props.main_icons, additionals: additionals})
             }).catch((error) => {
                 console.error(error)
+                const message = error.response?.data?.message;
+                if (message) alert(message);
                 props.showAlert("errorAlert")
             })
 

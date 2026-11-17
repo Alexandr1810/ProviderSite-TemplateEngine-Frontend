@@ -64,9 +64,10 @@ async function Header({params_city}){
                         />
                     </a>
                     <nav>
-                        <a href="#allOffers">Услуги и предложения</a>
-                        <a href="#infoSection">Преимущества</a>
-                        <a href="#questions">Вопросы</a>
+                        <a href={`/${activeCity.code}#allOffers`}>Услуги и предложения</a>
+                        <a href={`/${activeCity.code}#infoSection`}>Преимущества</a>
+                        <a href={`/${activeCity.code}#questions`}>Вопросы</a>
+                        {Number(site_config.blog_enabled) ? <a href="/blog">Блог</a> : null}
                     </nav>
                 </div>
                 

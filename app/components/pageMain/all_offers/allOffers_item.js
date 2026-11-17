@@ -145,12 +145,17 @@ function AllOffers_Item(props){
                         }
                         {(props.plan.discount_period === 0 && props.plan.discount_price > 0)  && //скидка бессрочная
                             <div className='right-side'> 
-                                <span className='elem-price-periodText'>
+                                
+                                <span className='elem-price-outDiscount-big'>
+                                    <span className='discount'>{props.plan.price}₽/мес</span>
+                                </span>
+
+                                {/* <span className='elem-price-periodText'>
                                     бессрочно
                                 </span>
                                 <span className='elem-price-outDiscount'>
                                     вместо <span className='discount'>{props.plan.price}₽/мес</span>
-                                </span>
+                                </span> */}
                             </div>
                         }
                     </div>

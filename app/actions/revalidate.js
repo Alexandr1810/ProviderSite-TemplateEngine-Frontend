@@ -4,5 +4,10 @@
 import { revalidatePath } from 'next/cache';
 
 export async function clearCache() {
-  revalidatePath('/');
+  revalidatePath('/', 'layout');
+}
+
+export async function revalidateBlog() {
+  revalidatePath('/blog', 'layout');
+  revalidatePath('/', 'layout');
 }

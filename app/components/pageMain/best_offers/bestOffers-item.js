@@ -151,32 +151,37 @@ function TarifPreview(props){
                 </div>
             }
             <div className='elem-price'>
-                <div className='elem-price-wrapper'>
-                    <div className='left-side'> 
-                        {
-                        (props.plan.discount_price || props.plan.discount_period) ? props.plan.discount_price : props.plan.price
-                        }₽/мес
+                    <div className='elem-price-wrapper'>
+                        <div className='left-side'> 
+                            {
+                            (props.plan.discount_price || props.plan.discount_period) ? props.plan.discount_price : props.plan.price
+                            }₽/мес
+                        </div>
+                        {(props.plan.discount_period > 0)  && //скидка на время
+                            <div className='right-side'>
+                                <span className='elem-price-periodText'>
+                                    {props.pluralize(props.plan.discount_period, 'первый', 'первые', 'первые')} {props.plan.discount_period !== 1 ? props.plan.discount_period : ''} {props.pluralize(props.plan.discount_period, 'месяц', 'месяца', 'месяцев')}
+                                </span>
+                                <span className='elem-price-outDiscount'>далее {props.plan.price}₽/мес</span>
+                            </div>
+                        }
+                        {(props.plan.discount_period === 0 && props.plan.discount_price > 0)  && //скидка бессрочная
+                            <div className='right-side'> 
+                                
+                                <span className='elem-price-outDiscount-big'>
+                                    <span className='discount'>{props.plan.price}₽/мес</span>
+                                </span>
+
+                                {/* <span className='elem-price-periodText'>
+                                    бессрочно
+                                </span>
+                                <span className='elem-price-outDiscount'>
+                                    вместо <span className='discount'>{props.plan.price}₽/мес</span>
+                                </span> */}
+                            </div>
+                        }
                     </div>
-                    {(props.plan.discount_period > 0)  && //скидка на время
-                        <div className='right-side'>
-                            <span className='elem-price-periodText'>
-                                {props.pluralize(props.plan.discount_period, 'первый', 'первые', 'первые')} {props.plan.discount_period !== 1 ? props.plan.discount_period : ''} {props.pluralize(props.plan.discount_period, 'месяц', 'месяца', 'месяцев')}
-                            </span>
-                            <span className='elem-price-outDiscount'>далее {props.plan.price}₽/мес</span>
-                        </div>
-                    }
-                    {(props.plan.discount_period === 0 && props.plan.discount_price > 0)  && //скидка бессрочная
-                        <div className='right-side'> 
-                            <span className='elem-price-periodText'>
-                                бессрочно
-                            </span>
-                            <span className='elem-price-outDiscount'>
-                                вместо <span className='discount'>{props.plan.price}₽/мес</span>
-                            </span>
-                        </div>
-                    }
                 </div>
-            </div>
             {props.plan.connection_price !== 9999 &&
             <div className='elem-priceConnection'>
                 <span className='elem-priceConnection-preview'>Стоимость подключения <b>{props.plan.connection_price}</b> руб.</span>

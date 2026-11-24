@@ -25,6 +25,11 @@ export function formatBlogDate(value) {
   }).format(date);
 }
 
+export function formatBlogReadTime(value) {
+  const text = String(value || '').trim();
+  return text;
+}
+
 export function blogRobots(siteConfig) {
   const index = Number(siteConfig?.seo_indexing) === 1;
   return {

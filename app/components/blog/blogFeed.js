@@ -1,4 +1,5 @@
 import { blogImageUrl, formatBlogDate } from '@/app/utils/blogView';
+import { BlogFeedMore } from '@/app/components/footer/connectionButton';
 
 export function SectionNav({ sections, activeSlug }) {
   if (!sections?.length) return null;
@@ -19,26 +20,67 @@ export function SectionNav({ sections, activeSlug }) {
   );
 }
 
-export function BlogFeed({ articles, emptyText }) {
+function ArticleMeta({ article }) {
+  const date = formatBlogDate(article.created_at);
+  const readTime = String(article.read_time || '').trim();
+  if (!date && !readTime) return null;
+  return (
+    <div className="blog-meta">
+      {date ? <time dateTime={article.created_at}>{date}</time> : null}
+      {date && readTime ? <span aria-hidden="true">·</span> : null}
+      {readTime ? <span>{readTime}</span> : null}
+    </div>
+  );
+}
+
+export function BlogCard({ article }) {
+  return (
+    <a className="blog-card" href={`/blog/${article.slug}`}>
+      {article.cover
+        ? <img src={blogImageUrl(article.cover)} alt="" />
+        : <div className="blog-card-cover" aria-hidden="true" />}
+      <div className="blog-card-body">
+        {article.section_name ? <span>{article.section_name}</span> : null}
+        <h2>{article.title}</h2>
+        {article.description ? <p>{article.description}</p> : null}
+        <ArticleMeta article={article} />
+      </div>
+    </a>
+  );
+}
+
+export function BlogFeed({ articles, emptyText, limit }) {
   if (!articles?.length) {
     return <p className="blog-empty">{emptyText || 'В этом разделе пока нет статей.'}</p>;
   }
 
+  const visible = limit ? articles.slice(0, limit) : articles;
+  const hidden = limit ? articles.slice(limit) : [];
+
   return (
-    <div className="blog-feed">
-      {articles.map((article) => (
-        <a className="blog-card" href={`/blog/${article.slug}`} key={article.id}>
-          {article.cover
-            ? <img src={blogImageUrl(article.cover)} alt="" />
-            : <div className="blog-card-cover" aria-hidden="true" />}
-          <div className="blog-card-body">
-            {article.section_name ? <span>{article.section_name}</span> : null}
-            <h2>{article.title}</h2>
-            {article.description ? <p>{article.description}</p> : null}
-            <time dateTime={article.created_at}>{formatBlogDate(article.created_at)}</time>
+    <>
+      <div className="blog-feed">
+        {visible.map((article) => <BlogCard article={article} key={article.id} />)}
+      </div>
+      {hidden.length ? (
+        <BlogFeedMore hiddenCount={hidden.length}>
+          <div className="blog-feed blog-feed-more">
+            {hidden.map((article) => <BlogCard article={article} key={article.id} />)}
           </div>
-        </a>
-      ))}
-    </div>
+        </BlogFeedMore>
+      ) : null}
+    </>
+  );
+}
+
+export function RelatedArticles({ articles }) {
+  if (!articles?.length) return null;
+  return (
+    <section className="blog-related">
+      <h2>Читать дальше</h2>
+      <div className="blog-feed">
+        {articles.map((article) => <BlogCard article={article} key={article.id} />)}
+      </div>
+    </section>
   );
 }

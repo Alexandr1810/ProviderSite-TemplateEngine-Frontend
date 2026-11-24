@@ -51,7 +51,7 @@ export default async function BlogPage() {
       <Breadcrumbs provider={siteConfig.provider_name} />
       <h1>Блог</h1>
       <SectionNav sections={blog.sections} />
-      <BlogFeed articles={blog.articles} emptyText="Статьи скоро появятся." />
+      <BlogFeed articles={blog.articles} emptyText="Статьи скоро появятся." limit={6} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </div>
   );

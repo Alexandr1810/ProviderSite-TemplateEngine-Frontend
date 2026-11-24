@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { useGlobalContext } from '@/app/utils/globalContext';
-
+import Form from '@/app/components/dealForm';
 import {openModal} from '@/app/utils/functions'
 
 export default function ConnectionButton() {
@@ -39,5 +40,34 @@ export function ArticleCta({ text, articleTitle }) {
       <p>{label}</p>
       <button type="button" onClick={openDeal}>Оставить заявку</button>
     </aside>
+  );
+}
+
+export function ArticleDealForm({ siteConfig, activeCity, reachGoals, articleTitle }) {
+  return (
+    <aside className="blog-article-form">
+      <h2>Оставить заявку</h2>
+      <Form
+        site_config={siteConfig}
+        formName={`Блог: ${articleTitle || 'статья'}`}
+        reachGoals={reachGoals}
+        formId="blogArticleForm"
+        reachGoal="zakazatPodkluchenie"
+        activeCity={activeCity?.city}
+      />
+    </aside>
+  );
+}
+
+export function BlogFeedMore({ children, hiddenCount }) {
+  const [open, setOpen] = useState(false);
+  if (!hiddenCount) return children;
+  return (
+    <>
+      {open ? children : null}
+      {open ? null : (
+        <button type="button" className="blog-more" onClick={() => setOpen(true)}>Ещё</button>
+      )}
+    </>
   );
 }

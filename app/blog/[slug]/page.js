@@ -1,10 +1,13 @@
 import { notFound } from 'next/navigation';
 import { loadConfig } from '@/app/utils/components-config';
-import { loadBlogArticle } from '@/app/utils/blog';
+import { loadYMConfig } from '@/app/mods/YandexMetrika/YandexMetrika_config';
+import { loadBlogArticle, loadBlogSection } from '@/app/utils/blog';
 import { blogImageUrl, blogOrigin, blogRobots, formatBlogDate } from '@/app/utils/blogView';
+import { setActiveCity } from '@/app/utils/getCities';
 import Breadcrumbs from '@/app/components/blog/breadcrumbs';
 import ArticleBody from '@/app/components/blog/articleBody';
-import { ArticleCta } from '@/app/components/footer/connectionButton';
+import { RelatedArticles } from '@/app/components/blog/blogFeed';
+import { ArticleCta, ArticleDealForm } from '@/app/components/footer/connectionButton';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -36,11 +39,23 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogArticlePage({ params }) {
   const { slug } = await params;
-  const [siteConfig, article] = await Promise.all([loadConfig(), loadBlogArticle(slug)]);
+  const [siteConfig, article, reachConfig, activeCity] = await Promise.all([
+    loadConfig(),
+    loadBlogArticle(slug),
+    loadYMConfig(),
+    setActiveCity(),
+  ]);
   if (!article) notFound();
+
+  const sectionData = article.section_slug ? await loadBlogSection(article.section_slug) : null;
+  const related = (sectionData?.articles || [])
+    .filter((item) => item.slug !== article.slug)
+    .slice(0, 3);
 
   const url = `${blogOrigin()}/blog/${article.slug}`;
   const home = blogOrigin();
+  const date = formatBlogDate(article.created_at);
+  const readTime = String(article.read_time || '').trim();
   const jsonLd = [
     {
       '@context': 'https://schema.org',
@@ -67,14 +82,32 @@ export default async function BlogArticlePage({ params }) {
   ];
 
   return (
-    <article className="blog-wrap blog-article">
-      <Breadcrumbs provider={siteConfig.provider_name} articleTitle={article.title} />
-      <a className="blog-kicker" href={`/blog/section/${article.section_slug}`}>{article.section_name}</a>
-      <h1>{article.title}</h1>
-      <time dateTime={article.created_at}>{formatBlogDate(article.created_at)}</time>
-      <ArticleBody blocks={article.content} />
-      <ArticleCta text={article.cta_text} articleTitle={article.title} />
+    <div className="blog-wrap blog-article-page">
+      <div className="blog-article-layout">
+        <article className="blog-article">
+          <Breadcrumbs provider={siteConfig.provider_name} articleTitle={article.title} />
+          <a className="blog-kicker" href={`/blog/section/${article.section_slug}`}>{article.section_name}</a>
+          <h1>{article.title}</h1>
+          {(date || readTime) ? (
+            <div className="blog-meta">
+              {date ? <time dateTime={article.created_at}>{date}</time> : null}
+              {date && readTime ? <span aria-hidden="true">·</span> : null}
+              {readTime ? <span>{readTime}</span> : null}
+            </div>
+          ) : null}
+          {article.excerpt ? <p className="blog-excerpt">{article.excerpt}</p> : null}
+          <ArticleBody blocks={article.content} />
+          <ArticleCta text={article.cta_text} articleTitle={article.title} />
+          <RelatedArticles articles={related} />
+        </article>
+        <ArticleDealForm
+          siteConfig={siteConfig}
+          activeCity={activeCity}
+          reachGoals={reachConfig.reachGoals}
+          articleTitle={article.title}
+        />
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-    </article>
+    </div>
   );
 }

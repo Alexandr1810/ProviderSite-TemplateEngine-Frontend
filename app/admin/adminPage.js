@@ -294,6 +294,7 @@ function emptyArticle(sectionId) {
     slug: '',
     slugLocked: false,
     excerpt: '',
+    read_time: '',
     cta_text: 'Подключай домашний интернет у нас',
     cover: '',
     published: 0,
@@ -387,6 +388,7 @@ export function BlogAdmin({ initial }) {
       slugLocked: true,
       published: Number(article.published) ? 1 : 0,
       content: blocksWithIds(article.content),
+      read_time: article.read_time || '',
       cta_text: article.cta_text || 'Подключай домашний интернет у нас',
     });
     setStatus('');
@@ -447,6 +449,7 @@ export function BlogAdmin({ initial }) {
         title: draft.title,
         slug: draft.slug,
         excerpt: draft.excerpt,
+        read_time: draft.read_time,
         cta_text: draft.cta_text,
         cover: draft.cover,
         published: draft.published ? 1 : 0,
@@ -669,6 +672,9 @@ export function BlogAdmin({ initial }) {
                   <input value={draft.slug} onChange={(event) => changeSlug(event.target.value)} />
                 
                 </label>
+                <label>Время чтения
+                  <input value={draft.read_time || ''} onChange={(event) => updateDraft({ read_time: event.target.value })} placeholder="5 мин" />
+                </label>
               </div>
               <label>Краткое описание для поисковиков
                 <textarea value={draft.excerpt} onChange={(event) => updateDraft({ excerpt: event.target.value })} />
@@ -753,8 +759,10 @@ export function BlogAdmin({ initial }) {
 }
 
 function TableBlock({ block, onChange }) {
-  const headers = block.headers || [];
-  const rows = block.rows || [];
+  const headers = block.headers?.length ? block.headers : [''];
+  const rows = block.rows?.length ? block.rows : [headers.map(() => '')];
+  const canRemoveColumn = headers.length > 1;
+  const canRemoveRow = rows.length > 1;
 
   function setHeader(index, value) {
     const next = [...headers];
@@ -783,29 +791,51 @@ function TableBlock({ block, onChange }) {
     onChange({ rows: [...rows, headers.map(() => '')] });
   }
 
+  function removeColumn(index) {
+    if (!canRemoveColumn) return;
+    onChange({
+      headers: headers.filter((_, cellIndex) => cellIndex !== index),
+      rows: rows.map((row) => row.filter((_, cellIndex) => cellIndex !== index)),
+    });
+  }
+
+  function removeRow(index) {
+    if (!canRemoveRow) return;
+    onChange({ rows: rows.filter((_, rowIndex) => rowIndex !== index) });
+  }
+
   return (
     <div className="blog-table-editor">
-      <table>
-        <thead>
-          <tr>
-            {headers.map((cell, index) => (
-              <th key={index}><input value={cell} onChange={(event) => setHeader(index, event.target.value)} /></th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {headers.map((_, cellIndex) => (
-                <td key={cellIndex}>
-                  <input value={row[cellIndex] || ''} onChange={(event) => setCell(rowIndex, cellIndex, event.target.value)} />
-                </td>
+      <div className="blog-table-scroll">
+        <table>
+          <thead>
+            <tr>
+              {headers.map((cell, index) => (
+                <th key={index}>
+                  <div className="blog-table-cell">
+                    <input value={cell} onChange={(event) => setHeader(index, event.target.value)} />
+                    <button type="button" className="delIcon-Button" disabled={!canRemoveColumn} onClick={() => removeColumn(index)} title="Удалить столбец">—</button>
+                  </div>
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      
+          </thead>
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {headers.map((_, cellIndex) => (
+                  <td key={cellIndex}>
+                    <input value={row[cellIndex] || ''} onChange={(event) => setCell(rowIndex, cellIndex, event.target.value)} />
+                  </td>
+                ))}
+                <td className="blog-table-add">
+                  <button type="button" className="delIcon-Button" disabled={!canRemoveRow} onClick={() => removeRow(rowIndex)} title="Удалить строку">—</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="blog-admin-actions">
         <button type="button" onClick={addColumn}>Столбец</button>
         <button type="button" onClick={addRow}>Строка</button>

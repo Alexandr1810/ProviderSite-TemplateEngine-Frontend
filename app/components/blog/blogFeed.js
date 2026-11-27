@@ -1,4 +1,4 @@
-import { blogImageUrl, formatBlogDate } from '@/app/utils/blogView';
+import { blogImageUrl, formatBlogDate, formatBlogReadTime } from '@/app/utils/blogView';
 import { BlogFeedMore } from '@/app/components/footer/connectionButton';
 
 export function SectionNav({ sections, activeSlug }) {
@@ -22,7 +22,7 @@ export function SectionNav({ sections, activeSlug }) {
 
 function ArticleMeta({ article }) {
   const date = formatBlogDate(article.created_at);
-  const readTime = String(article.read_time || '').trim();
+  const readTime = formatBlogReadTime(article.read_time);
   if (!date && !readTime) return null;
   return (
     <div className="blog-meta">
@@ -54,23 +54,15 @@ export function BlogFeed({ articles, emptyText, limit }) {
     return <p className="blog-empty">{emptyText || 'В этом разделе пока нет статей.'}</p>;
   }
 
-  const visible = limit ? articles.slice(0, limit) : articles;
-  const hidden = limit ? articles.slice(limit) : [];
-
-  return (
-    <>
-      <div className="blog-feed">
-        {visible.map((article) => <BlogCard article={article} key={article.id} />)}
-      </div>
-      {hidden.length ? (
-        <BlogFeedMore hiddenCount={hidden.length}>
-          <div className="blog-feed blog-feed-more">
-            {hidden.map((article) => <BlogCard article={article} key={article.id} />)}
-          </div>
-        </BlogFeedMore>
-      ) : null}
-    </>
+  const cards = (
+    <div className="blog-feed">
+      {articles.map((article) => <BlogCard article={article} key={article.id} />)}
+    </div>
   );
+
+  if (!limit || articles.length <= limit) return cards;
+
+  return <BlogFeedMore>{cards}</BlogFeedMore>;
 }
 
 export function RelatedArticles({ articles }) {

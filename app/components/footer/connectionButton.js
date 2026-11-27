@@ -59,15 +59,14 @@ export function ArticleDealForm({ siteConfig, activeCity, reachGoals, articleTit
   );
 }
 
-export function BlogFeedMore({ children, hiddenCount }) {
+export function BlogFeedMore({ children }) {
   const [open, setOpen] = useState(false);
-  if (!hiddenCount) return children;
   return (
-    <>
-      {open ? children : null}
+    <div className={open ? 'blog-feed-wrap' : 'blog-feed-wrap is-collapsed'}>
+      {children}
       {open ? null : (
         <button type="button" className="blog-more" onClick={() => setOpen(true)}>Ещё</button>
       )}
-    </>
+    </div>
   );
 }

@@ -27,6 +27,8 @@ export function formatBlogDate(value) {
 
 export function formatBlogReadTime(value) {
   const text = String(value || '').trim();
+  if (!text) return '';
+  if (/^\d+$/.test(text)) return `${text} мин`;
   return text;
 }
 

@@ -3954,8 +3954,8 @@ footer{
 }
 .blog-article-layout{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 32px;
+  grid-template-columns: minmax(0px, 1fr) 400px;
+  gap: 15px;
   align-items: start;
 }
 .blog-article-form{
@@ -3970,6 +3970,7 @@ footer{
   line-height: 1.25;
   margin-bottom: 14px;
 }
+.blog-article-form .dealForm,
 .blog-article-form .dealForm input:not([type="checkbox"]){
   width: 100%;
   box-sizing: border-box;
@@ -4000,12 +4001,12 @@ footer{
   font-size: 28px;
   margin-bottom: 18px;
 }
+.blog-feed-wrap.is-collapsed .blog-feed > :nth-child(n+7){
+  display: none;
+}
 .blog-more{
   display: block;
   margin: 24px auto 0;
-}
-.blog-feed-more{
-  margin-top: 18px;
 }
 .blog-lead{
   max-width: 720px;
@@ -4059,9 +4060,9 @@ footer{
 .blog-card-body span,
 .blog-kicker{
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 .blog-card h2{
   font-size: 22px;
@@ -4329,6 +4330,7 @@ footer{
   }
   .blog-article-form{
     position: static;
+    display: none;
   }
   .blog-feed{
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -53,8 +53,8 @@ export default async function BlogSectionPage({ params }) {
   return (
     <div className="blog-wrap">
       <Breadcrumbs provider={siteConfig.provider_name} section={data.section} />
-      <SectionNav sections={blog.sections} activeSlug={data.section.slug} />
       <h1>{data.section.name}</h1>
+      <SectionNav sections={blog.sections} activeSlug={data.section.slug} />
       {data.section.description ? <p className="blog-lead">{data.section.description}</p> : null}
       <BlogFeed articles={data.articles} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

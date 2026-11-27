@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { loadConfig } from '@/app/utils/components-config';
 import { loadYMConfig } from '@/app/mods/YandexMetrika/YandexMetrika_config';
 import { loadBlogArticle, loadBlogSection } from '@/app/utils/blog';
-import { blogImageUrl, blogOrigin, blogRobots, formatBlogDate } from '@/app/utils/blogView';
+import { blogImageUrl, blogOrigin, blogRobots, formatBlogDate, formatBlogReadTime } from '@/app/utils/blogView';
 import { setActiveCity } from '@/app/utils/getCities';
 import Breadcrumbs from '@/app/components/blog/breadcrumbs';
 import ArticleBody from '@/app/components/blog/articleBody';
@@ -55,7 +55,7 @@ export default async function BlogArticlePage({ params }) {
   const url = `${blogOrigin()}/blog/${article.slug}`;
   const home = blogOrigin();
   const date = formatBlogDate(article.created_at);
-  const readTime = String(article.read_time || '').trim();
+  const readTime = formatBlogReadTime(article.read_time);
   const jsonLd = [
     {
       '@context': 'https://schema.org',
@@ -98,7 +98,6 @@ export default async function BlogArticlePage({ params }) {
           {article.excerpt ? <p className="blog-excerpt">{article.excerpt}</p> : null}
           <ArticleBody blocks={article.content} />
           <ArticleCta text={article.cta_text} articleTitle={article.title} />
-          <RelatedArticles articles={related} />
         </article>
         <ArticleDealForm
           siteConfig={siteConfig}
@@ -107,6 +106,7 @@ export default async function BlogArticlePage({ params }) {
           articleTitle={article.title}
         />
       </div>
+      <RelatedArticles articles={related} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </div>
   );
